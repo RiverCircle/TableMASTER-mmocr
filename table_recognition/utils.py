@@ -288,11 +288,20 @@ def structure_visual(file_path, results):
     img = imread(file_path)
     bboxes = results['bbox']
     bboxes = xywh2xyxy(bboxes)
+    r = 255
+    g = 0
+    b = 0
     for bbox in bboxes:
         if bbox.sum() == 0.:
+            flag = 1
             continue
+        if flag==1:
+            r = random.randint(0,255)
+            g = random.randint(0,255)
+            b = random.randint(0,255)
         img = cv2.rectangle(img, (int(bbox[0]), int(bbox[1])),
-                            (int(bbox[2]), int(bbox[3])), (0, 255, 0), thickness=1)
+                            (int(bbox[2]), int(bbox[3])), (r, g, b), thickness=1)
+        flag = 0
     cv2.imwrite(os.path.join('/data_0/cache/structure_vis.jpg'), img)
 
     return img
